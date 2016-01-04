@@ -23,6 +23,8 @@ me = ""
 you = ""
 cc = ""
 msg['Subject'] = ''
+office365_user = ''
+office365_pwd = ''
 # **************************************************
 
 
@@ -85,8 +87,12 @@ with open(csv_file, 'rU') as f:
 
 				# Send the message via our own SMTP server, but don't include the
 				# envelope header.
-				s = smtplib.SMTP('')
-				s.sendmail(me, [you], msg.as_string())
+				s = smtplib.SMTP('',PORT_NUMBER)
+				s.ehlo()
+				s.starttls()
+				s.ehlo()
+				s.login(office365_user,office365_pwd)
+				s.sendmail(me, [you,cc], msg.as_string())
 				s.quit()
 				print "email sent to ",you
 
